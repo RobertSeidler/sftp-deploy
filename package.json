@@ -1,0 +1,15 @@
+{
+  "name": "ftp-deploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Robert Seidler",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^3.0.1",
+    "ftp": "^0.3.10"
+  }
+}
