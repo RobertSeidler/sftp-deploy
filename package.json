@@ -1,5 +1,5 @@
 {
-  "name": "sftp-deploy",
+  "name": "sftp-deploy-node",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
