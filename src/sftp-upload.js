@@ -62,6 +62,7 @@ module.exports = (function(localPath, remotePath, host, user, password){
   const SFTPClient = require('sftp-promises');
   const sftp = new SFTPClient();
 
+  console.log(localPath, '-->', remotePath)
   getFolderTree(localPath, remotePath, '')
     .then(nestedFileList => flattenDeep(nestedFileList))
     .then(fileList => {
