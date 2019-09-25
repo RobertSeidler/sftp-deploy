@@ -1,15 +1,20 @@
 {
-  "name": "ftp-deploy",
+  "name": "sftp-deploy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "bin": {
+    "ftp-deploy": "dist/cli.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cp src/* dist"
   },
   "author": "Robert Seidler",
   "license": "ISC",
   "dependencies": {
     "commander": "^3.0.1",
-    "ftp": "^0.3.10"
+    "prompt": "^1.0.0",
+    "sftp-promises": "^1.7.0"
   }
 }
