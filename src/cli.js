@@ -20,13 +20,13 @@ prompt.start();
 
 prompt.get({properties: {password: {hidden: true, replace: '*'}}}, function (err, result) {
  
-  const upload = require('./ftp-upload.js');
+  const upload = require('./sftp-upload.js');
 
   upload(
-    localPath, 
-    remotePath, 
-    host, 
-    user, 
+    program.localPath, 
+    program.remotePath, 
+    program.host, 
+    program.user, 
     result.password
   )
 })
