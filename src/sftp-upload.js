@@ -31,49 +31,51 @@ async function getFolderTree(source_folder, remote_folder, sub_folder){
   });
 }
 
+async function uploadSingleFile(sftp, file){
+  try{
+    success = await sftp.put(file.local, file.remote, session)
+    await logFile.write(!success ? `failed for file: ${file.remote}\n` : '');      
+    console.log(success ? `wrote ${file.remote}` : `failed to write ${file.local} to ${file.remote}`);  
+  } catch(err){
+    await logFile.write(`failed for file: ${file.remote}\n${err}\n`)
+    console.error(err)
+  }
+}
+
 async function uploadFiles(sftp, session, files){
   logFile = fs.createWriteStream('./sftp.log')
   while (!logFile.writable) {}
+  let result_promises = [];
 
   for(file of files) {
     if (file.type === 'dir'){
       try{
-        console.log(await sftp.mkdir(file.remote, session));
+        await sftp.mkdir(file.remote, session);
       } catch (err){
 
       }
     } else {
-      let success = false;
-      try{
-        success = await sftp.put(file.local, file.remote, session);
-      } catch(err){
-        logFile.write(`failed for file: ${file.remote}\n${err}\n`)
-        console.error(err)
-      }
-      logFile.write(success ? `success for file: ${file.remote}` : '');      
-      console.log(success ? `wrote ${file.remote}` : `failed to write ${file.remote}`);
+      uploadSingleFile(sftp, file);
     }
   }
-  logFile.end()
+  
+  return Promise.all(result_promises)
+    .then(logFile.end());
 }
 
 module.exports = (function(localPath, remotePath, host, user, password){
   const config = {host: host, username: user, password: password};
   const SFTPClient = require('sftp-promises');
-  const sftp = new SFTPClient();
+  const sftp = new SFTPClient(config);
 
   console.log(localPath, '-->', remotePath)
   getFolderTree(localPath, remotePath, '')
     .then(nestedFileList => flattenDeep(nestedFileList))
     .then(fileList => {
-      // console.log(fileList)
-      sftp.session(config).then(function(session) {
-        uploadFiles(sftp, session, fileList)
-          .then(() => {
-            console.log('closing')
-            session.end()
-          })
-      })
+      uploadFiles(sftp, undefined, fileList)
+        .then(() => {
+          console.log('finished')
+        });
     })
 })
 
