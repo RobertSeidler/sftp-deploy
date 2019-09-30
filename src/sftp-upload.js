@@ -33,7 +33,7 @@ async function getFolderTree(source_folder, remote_folder, sub_folder){
 
 async function uploadSingleFile(sftp, file){
   try{
-    success = await sftp.put(file.local, file.remote, session)
+    success = await sftp.put(file.local, file.remote)
     await logFile.write(!success ? `failed for file: ${file.remote}\n` : '');      
     console.log(success ? `wrote ${file.remote}` : `failed to write ${file.local} to ${file.remote}`);  
   } catch(err){
@@ -42,7 +42,7 @@ async function uploadSingleFile(sftp, file){
   }
 }
 
-async function uploadFiles(sftp, session, files){
+async function uploadFiles(sftp, files){
   logFile = fs.createWriteStream('./sftp.log')
   while (!logFile.writable) {}
   let result_promises = [];
@@ -50,7 +50,7 @@ async function uploadFiles(sftp, session, files){
   for(file of files) {
     if (file.type === 'dir'){
       try{
-        await sftp.mkdir(file.remote, session);
+        await sftp.mkdir(file.remote);
       } catch (err){
 
       }
