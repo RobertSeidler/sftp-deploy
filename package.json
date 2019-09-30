@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cp src/* dist"
+    "build": "cp src/* dist",
+    "deploy": "npm run build && git add * && git commit && npm version patch && npm publish && git push --tags"
   },
   "author": "Robert Seidler",
   "license": "ISC",
