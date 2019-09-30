@@ -7,10 +7,10 @@ const program = new commander.Command();
 program.version(VERSION);
 
 program
-  .option('-l --localPath', 'all files inside this path get uploaded via sftp')
-  .option('-r --remotePath', 'remote path has to exist on remote host')
-  .option('-h --host', 'host address')
-  .option('-u --user', 'host user')
+  .option('-l --localPath <type>', 'all files inside this path get uploaded via sftp')
+  .option('-r --remotePath <type>', 'remote path has to exist on remote host')
+  .option('-h --host <type>', 'host address')
+  .option('-u --user <type>', 'host user')
 
 program.parse(process.argv);
 
